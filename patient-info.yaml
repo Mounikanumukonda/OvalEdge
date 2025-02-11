@@ -1,0 +1,77 @@
+openapi: 3.0.3
+info:
+  title: "Patient Information API"
+  version: "1.0"
+  description: This API retrieves patient information from the hospital system.
+
+tags:
+  - name: PatientInfoV1
+
+paths:
+  /patients/{patientId}:
+    get:
+      tags:
+        - PatientInfoV1
+      operationId: getPatientInfo
+      description: |-
+        <b>API Description :</b> This API retrieves information for a specific patient by their ID.<br/>
+        <b>Business Logic/Filter on data :</b> None<br/>
+        <b>Source overview : </b> API Gateway>Database<br/>
+        <b>Works with ''Try it Out''? :</b> Yes<br/>
+        <b>Application Context/User Context/Both:</b> User Context<br/>
+        <b>Caching and frequency :</b> None<br/>
+        <b>Any exceptional scenarios associated to API?:</b> None<br/>
+        <b>Security Level:</b> Level 2 (Authenticated)<br />
+        <b>Hypermedia Links:</b> No<br /><b>Any exceptional scenarios associated to API?:</b> The API accepts the access token/apikey only in the header.<br/>
+      parameters:
+        - name: patientId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Unique identifier for the patient
+      responses:
+        "200":
+          description: Patient information retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PatientInfoResponse"
+        "404":
+          description: Patient not found
+        "406":
+          description: Input data is in invalid format
+        "500":
+          description: Internal Server Error
+      summary: This API retrieves patient information by patient ID.
+
+components:
+  schemas:
+    PatientInfoResponse:
+      description: Patient Information
+      type: object
+      properties:
+        patientId:
+          description: Unique identifier for the patient
+          type: integer
+        name:
+          description: Name of the patient
+          type: string
+        dob:
+          description: Date of birth of the patient
+          type: string
+          format: date
+        contact:
+          type: object
+          properties:
+            phone:
+              description: Phone number of the patient
+              type: string
+            email:
+              description: Email address of the patient
+              type: string
+        medicalHistory:
+          type: array
+          items:
+            type: string
+          description: List of medical history records for the patient
