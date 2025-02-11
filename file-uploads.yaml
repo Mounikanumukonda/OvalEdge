@@ -1,73 +1,35 @@
-openapi: 3.0.3
+openapi: 3.0.0
 info:
-  title: File uploading support
-  description: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.3.md#considerations-for-file-uploads
+  title: Hospital File Upload API
   version: 1.0.0
-servers:
-  - url: https://httpbin.org
+  description: API for uploading files, such as medical records, to the hospital system.
 paths:
-  '/anything/image-png':
+  /files/upload:
     post:
-      summary: '`image/png` uploads'
-      description: |-
-        Support for a `requestBody` with an `image/png` media type to upload a single image binary.
-
-        https://swagger.io/docs/specification/describing-request-body/file-upload/
-      tags:
-        - image/png
+      summary: Upload a file
       requestBody:
-        content:
-          image/png:
-            schema:
-              type: string
-              format: binary
-      responses:
-        '200':
-          description: OK
-  '/anything/multipart-formdata':
-    post:
-      summary: Single file
-      description: |-
-        Support for a `requestBody` with a `multipart/form-data` media type.
-
-        https://swagger.io/docs/specification/describing-request-body/file-upload/
-      tags:
-        - multipart/form-data
-      requestBody:
+        required: true
         content:
           multipart/form-data:
             schema:
               type: object
               properties:
-                orderId:
-                  type: integer
-                userId:
-                  type: integer
-                documentFile:
+                file:
                   type: string
                   format: binary
       responses:
         '200':
-          description: OK
-    put:
-      summary: Multiple files
-      description: |-
-        Support for a `requestBody` with a `multipart/form-data` containing multiple files.
-
-        https://swagger.io/docs/specification/describing-request-body/file-upload/
-      tags:
-        - multipart/form-data
-      requestBody:
-        content:
-          multipart/form-data:
-            schema:
-              type: object
-              properties:
-                filename:
-                  type: array
-                  items:
+          description: File uploaded successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  fileId:
                     type: string
-                    format: binary
-      responses:
-        '200':
-          description: OK
+                    description: Unique identifier for the uploaded file
+                  status:
+                    type: string
+                    description: Status of the upload
+        '400':
+          description: Invalid file upload request
