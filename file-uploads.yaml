@@ -1,12 +1,28 @@
-openapi: 3.0.0
+openapi: 3.0.3
 info:
-  title: Hospital File Upload API
-  version: 1.0.0
-  description: API for uploading files, such as medical records, to the hospital system.
+  title: "File Upload API"
+  version: "1.0"
+  description: This is the File Upload API for the hospital system.
+
+tags:
+  - name: FileUploadV1
+
 paths:
-  /files/upload:
+  /hospital/files/upload:
     post:
-      summary: Upload a file
+      tags:
+        - FileUploadV1
+      operationId: uploadFile
+      description: |-
+        <b>API Description :</b> This API allows users to upload files, such as medical records, to the hospital system.<br/>
+        <b>Business Logic/Filter on data :</b> None<br/>
+        <b>Source overview : </b> API Gateway>Document DB>File Storage<br/>
+        <b>Works with ''Try it Out''? :</b> Yes<br/>
+        <b>Application Context/User Context/Both:</b> Application Context<br/>
+        <b>Caching and frequency :</b> None<br/>
+        <b>Any exceptional scenarios associated to API?:</b> None<br/>
+        <b>Security Level:</b> Level 1 (Public)<br />
+        <b>Hypermedia Links:</b> No<br /><b>Any exceptional scenarios associated to API?:</b> The API accepts the access token/apikey only in the header.<br/>
       requestBody:
         required: true
         content:
@@ -17,19 +33,29 @@ paths:
                 file:
                   type: string
                   format: binary
+                  description: The file to upload
       responses:
-        '200':
-          description: File uploaded successfully
+        "200":
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  fileId:
-                    type: string
-                    description: Unique identifier for the uploaded file
-                  status:
-                    type: string
-                    description: Status of the upload
-        '400':
+                $ref: "#/components/schemas/UploadFileResponse"
+          description: File uploaded successfully
+        "400":
           description: Invalid file upload request
+        "500":
+          description: Internal Server Error
+      summary: This API allows users to upload files.
+
+components:
+  schemas:
+    UploadFileResponse:
+      description: File Upload Response
+      type: object
+      properties:
+        fileId:
+          description: Unique identifier for the uploaded file
+          type: string
+        status:
+          description: Status of the upload
+          type: string
