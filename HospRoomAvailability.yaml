@@ -25,7 +25,7 @@ paths:
         <b>Hypermedia Links:</b> No<br /><b>Any exceptional scenarios associated to API?:</b> The API accepts the access token/apikey only in the header.<br/>
       responses:
         "200":
-          description: Room availability information retrieved successfully
+          description: Success
           content:
             application/json:
               schema:
@@ -56,3 +56,32 @@ components:
         floor:
           description: Floor where the room is located
           type: string
+        description:
+          description: Additional details about the room
+          type: string
+        lastCleaned:
+          description: Date and time when the room was last cleaned
+          type: string
+          format: date-time
+        nextAvailable:
+          description: Date and time when the room will next be available
+          type: string
+          format: date-time
+        currentPatientId:
+          description: Unique identifier for the current patient in the room
+          type: integer
+        assignedStaff:
+          type: array
+          items:
+            type: object
+          description: List of staff assigned to the room
+          properties:
+            staffId:
+              description: Unique identifier for the staff member
+              type: integer
+            name:
+              description: Name of the staff member
+              type: string
+            role:
+              description: Role of the staff member
+              type: string
