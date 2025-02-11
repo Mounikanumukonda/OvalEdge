@@ -1,0 +1,61 @@
+openapi: 3.0.3
+info:
+  title: "Medical Equipment Inventory API"
+  version: "1.0"
+  description: This API retrieves information about the hospital's medical equipment inventory.
+
+tags:
+  - name: EquipmentInventoryV1
+
+paths:
+  /equipment/inventory:
+    get:
+      tags:
+        - EquipmentInventoryV1
+      operationId: getEquipmentInventory
+      description: |-
+        <b>API Description :</b> This API retrieves information about the hospital's medical equipment inventory.<br/>
+        <b>Business Logic/Filter on data :</b> None<br/>
+        <b>Source overview : </b> API Gateway>Database<br/>
+        <b>Works with ''Try it Out''? :</b> Yes<br/>
+        <b>Application Context/User Context/Both:</b> User Context<br/>
+        <b>Caching and frequency :</b> None<br/>
+        <b>Any exceptional scenarios associated to API?:</b> None<br/>
+        <b>Security Level:</b> Level 2 (Authenticated)<br />
+        <b>Hypermedia Links:</b> No<br /><b>Any exceptional scenarios associated to API?:</b> The API accepts the access token/apikey only in the header.<br/>
+      responses:
+        "200":
+          description: Equipment inventory information retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EquipmentInventoryResponse"
+        "404":
+          description: Equipment information not found
+        "406":
+          description: Input data is in invalid format
+        "500":
+          description: Internal Server Error
+      summary: This API retrieves medical equipment inventory information.
+
+components:
+  schemas:
+    EquipmentInventoryResponse:
+      description: Medical Equipment Inventory
+      type: object
+      properties:
+        equipmentId:
+          description: Unique identifier for the equipment
+          type: integer
+        name:
+          description: Name of the equipment
+          type: string
+        status:
+          description: Status of the equipment (e.g., available, in use, under maintenance)
+          type: string
+        quantity:
+          description: Quantity of the equipment available
+          type: integer
+        location:
+          description: Location of the equipment within the hospital
+          type: string
