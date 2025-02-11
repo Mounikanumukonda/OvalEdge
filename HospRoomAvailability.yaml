@@ -1,0 +1,58 @@
+openapi: 3.0.3
+info:
+  title: "Hospital Room Availability API"
+  version: "1.0"
+  description: This API retrieves information about room availability in the hospital.
+
+tags:
+  - name: RoomAvailabilityV1
+
+paths:
+  /rooms/availability:
+    get:
+      tags:
+        - RoomAvailabilityV1
+      operationId: getRoomAvailability
+      description: |-
+        <b>API Description :</b> This API retrieves information about room availability in the hospital.<br/>
+        <b>Business Logic/Filter on data :</b> None<br/>
+        <b>Source overview : </b> API Gateway>Database<br/>
+        <b>Works with ''Try it Out''? :</b> Yes<br/>
+        <b>Application Context/User Context/Both:</b> User Context<br/>
+        <b>Caching and frequency :</b> None<br/>
+        <b>Any exceptional scenarios associated to API?:</b> None<br/>
+        <b>Security Level:</b> Level 2 (Authenticated)<br />
+        <b>Hypermedia Links:</b> No<br /><b>Any exceptional scenarios associated to API?:</b> The API accepts the access token/apikey only in the header.<br/>
+      responses:
+        "200":
+          description: Room availability information retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RoomAvailabilityResponse"
+        "404":
+          description: Room information not found
+        "406":
+          description: Input data is in invalid format
+        "500":
+          description: Internal Server Error
+      summary: This API retrieves room availability information.
+
+components:
+  schemas:
+    RoomAvailabilityResponse:
+      description: Room Availability Information
+      type: object
+      properties:
+        roomId:
+          description: Unique identifier for the room
+          type: integer
+        status:
+          description: Availability status of the room (e.g., available, occupied)
+          type: string
+        type:
+          description: Type of room (e.g., single, double, ICU)
+          type: string
+        floor:
+          description: Floor where the room is located
+          type: string
