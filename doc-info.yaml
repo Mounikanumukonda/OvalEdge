@@ -1,0 +1,76 @@
+openapi: 3.0.3
+info:
+  title: "Doctor Information API"
+  version: "1.0"
+  description: This API retrieves information about doctors in the hospital.
+
+tags:
+  - name: DoctorInfoV1
+
+paths:
+  /doctors/{doctorId}:
+    get:
+      tags:
+        - DoctorInfoV1
+      operationId: getDoctorInfo
+      description: |-
+        <b>API Description :</b> This API retrieves information for a specific doctor by their ID.<br/>
+        <b>Business Logic/Filter on data :</b> None<br/>
+        <b>Source overview : </b> API Gateway>Database<br/>
+        <b>Works with ''Try it Out''? :</b> Yes<br/>
+        <b>Application Context/User Context/Both:</b> User Context<br/>
+        <b>Caching and frequency :</b> None<br/>
+        <b>Any exceptional scenarios associated to API?:</b> None<br/>
+        <b>Security Level:</b> Level 2 (Authenticated)<br />
+        <b>Hypermedia Links:</b> No<br /><b>Any exceptional scenarios associated to API?:</b> The API accepts the access token/apikey only in the header.<br/>
+      parameters:
+        - name: doctorId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Unique identifier for the doctor
+      responses:
+        "200":
+          description: Doctor information retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DoctorInfoResponse"
+        "404":
+          description: Doctor not found
+        "406":
+          description: Input data is in invalid format
+        "500":
+          description: Internal Server Error
+      summary: This API retrieves doctor information by doctor ID.
+
+components:
+  schemas:
+    DoctorInfoResponse:
+      description: Doctor Information
+      type: object
+      properties:
+        doctorId:
+          description: Unique identifier for the doctor
+          type: integer
+        name:
+          description: Name of the doctor
+          type: string
+        specialty:
+          description: Medical specialty of the doctor
+          type: string
+        contact:
+          type: object
+          properties:
+            phone:
+              description: Phone number of the doctor
+              type: string
+            email:
+              description: Email address of the doctor
+              type: string
+        availability:
+          type: array
+          items:
+            type: string
+          description: List of available dates and times for the doctor
