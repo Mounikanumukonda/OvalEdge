@@ -32,7 +32,7 @@ paths:
           description: Unique identifier for the patient
       responses:
         "200":
-          description: Patient information retrieved successfully
+          description: Success
           content:
             application/json:
               schema:
@@ -125,8 +125,18 @@ components:
         medications:
           type: array
           items:
-            type: string
+            type: object
           description: List of medications the patient is currently taking
+          properties:
+            name:
+              description: Name of the medication
+              type: string
+            dosage:
+              description: Dosage of the medication
+              type: string
+            frequency:
+              description: Frequency of the medication
+              type: string
         surgeries:
           type: array
           items:
@@ -189,3 +199,72 @@ components:
           type: string
           format: date
           description: Date of the patient's last visit
+        gender:
+          description: Gender of the patient
+          type: string
+        maritalStatus:
+          description: Marital status of the patient
+          type: string
+        nationality:
+          description: Nationality of the patient
+          type: string
+        occupation:
+          description: Occupation of the patient
+          type: string
+        employer:
+          description: Employer of the patient
+          type: string
+        bloodType:
+          description: Blood type of the patient
+          type: string
+        organDonor:
+          description: Organ donor status of the patient
+          type: boolean
+        primaryLanguage:
+          description: Primary language spoken by the patient
+          type: string
+        secondaryLanguage:
+          description: Secondary language spoken by the patient
+          type: string
+        religion:
+          description: Religion of the patient
+          type: string
+        ethnicity:
+          description: Ethnicity of the patient
+          type: string
+        smoker:
+          description: Whether the patient is a smoker
+          type: boolean
+        alcoholUse:
+          description: Whether the patient uses alcohol
+          type: boolean
+        drugUse:
+          description: Whether the patient uses drugs
+          type: boolean
+        familyHistory:
+          type: array
+          items:
+            type: string
+          description: Family medical history
+        socialHistory:
+          type: array
+          items:
+            type: string
+          description: Social history of the patient
+        physicalActivity:
+          type: array
+          items:
+            type: string
+          description: Physical activity details of the patient
+        diet:
+          description: Dietary preferences of the patient
+          type: string
+        sleepPatterns:
+          description: Sleep patterns of the patient
+          type: string
+        stressLevels:
+          description: Stress levels of the patient
+          type: string
+        mentalHealth:
+          description: Mental health details of the patient
+          type: string
