@@ -75,3 +75,117 @@ components:
           items:
             type: string
           description: List of medical history records for the patient
+        address:
+          type: object
+          properties:
+            street:
+              description: Street address of the patient
+              type: string
+            city:
+              description: City of the patient
+              type: string
+            state:
+              description: State of the patient
+              type: string
+            zipCode:
+              description: Zip code of the patient
+              type: string
+            country:
+              description: Country of the patient
+              type: string
+        insurance:
+          type: object
+          properties:
+            provider:
+              description: Insurance provider of the patient
+              type: string
+            policyNumber:
+              description: Insurance policy number of the patient
+              type: string
+            coverage:
+              description: Coverage details of the patient's insurance
+              type: string
+        emergencyContact:
+          type: object
+          properties:
+            name:
+              description: Name of the emergency contact
+              type: string
+            relationship:
+              description: Relationship to the patient
+              type: string
+            phone:
+              description: Phone number of the emergency contact
+              type: string
+        allergies:
+          type: array
+          items:
+            type: string
+          description: List of allergies the patient has
+        medications:
+          type: array
+          items:
+            type: string
+          description: List of medications the patient is currently taking
+        surgeries:
+          type: array
+          items:
+            type: object
+          description: List of past surgeries
+          properties:
+            surgeryName:
+              description: Name of the surgery
+              type: string
+            date:
+              description: Date of the surgery
+              type: string
+              format: date
+        immunizations:
+          type: array
+          items:
+            type: object
+          description: List of immunizations
+          properties:
+            immunizationName:
+              description: Name of the immunization
+              type: string
+            date:
+              description: Date of the immunization
+              type: string
+              format: date
+        vitals:
+          type: object
+          properties:
+            height:
+              description: Height of the patient
+              type: string
+            weight:
+              description: Weight of the patient
+              type: string
+            bloodPressure:
+              description: Blood pressure of the patient
+              type: string
+            heartRate:
+              description: Heart rate of the patient
+              type: string
+        physician:
+          type: object
+          properties:
+            name:
+              description: Name of the primary physician
+              type: string
+            contact:
+              description: Contact details of the physician
+              type: string
+        insuranceExpiryDate:
+          type: string
+          format: date
+          description: Expiry date of the patient's insurance policy
+        registrationDate:
+          type: string
+          format: date
+          description: Date of patient registration
+        lastVisitDate:
+          type: string
+          format: date
+          description: Date of the patient's last visit
