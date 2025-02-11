@@ -1,20 +1,20 @@
 openapi: 3.0.3
 info:
-  title: "Medical Equipment Inventory API"
+  title: "Medical Equipment History API"
   version: "1.0"
-  description: This API retrieves information about the hospital's medical equipment inventory.
+  description: This API retrieves the history of medical equipment usage in the hospital.
 
 tags:
-  - name: EquipmentInventoryV1
+  - name: MedicalEquipHistV1
 
 paths:
-  /equipment/inventory:
+  /equipment/history/{equipmentId}:
     get:
       tags:
-        - EquipmentInventoryV1
-      operationId: getEquipmentInventory
+        - MedicalEquipHistV1
+      operationId: getMedicalEquipHistory
       description: |-
-        <b>API Description :</b> This API retrieves information about the hospital's medical equipment inventory.<br/>
+        <b>API Description :</b> This API retrieves the history of medical equipment usage in the hospital.<br/>
         <b>Business Logic/Filter on data :</b> None<br/>
         <b>Source overview : </b> API Gateway>Database<br/>
         <b>Works with ''Try it Out''? :</b> Yes<br/>
@@ -23,25 +23,32 @@ paths:
         <b>Any exceptional scenarios associated to API?:</b> None<br/>
         <b>Security Level:</b> Level 2 (Authenticated)<br />
         <b>Hypermedia Links:</b> No<br /><b>Any exceptional scenarios associated to API?:</b> The API accepts the access token/apikey only in the header.<br/>
+      parameters:
+        - name: equipmentId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Unique identifier for the equipment
       responses:
         "200":
-          description: Equipment inventory information retrieved successfully
+          description: Success
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/EquipmentInventoryResponse"
+                $ref: "#/components/schemas/MedicalEquipHistoryResponse"
         "404":
-          description: Equipment information not found
+          description: Equipment not found
         "406":
           description: Input data is in invalid format
         "500":
           description: Internal Server Error
-      summary: This API retrieves medical equipment inventory information.
+      summary: This API retrieves medical equipment history by equipment ID.
 
 components:
   schemas:
-    EquipmentInventoryResponse:
-      description: Medical Equipment Inventory
+    MedicalEquipHistoryResponse:
+      description: Medical Equipment History
       type: object
       properties:
         equipmentId:
@@ -50,12 +57,25 @@ components:
         name:
           description: Name of the equipment
           type: string
-        status:
-          description: Status of the equipment (e.g., available, in use, under maintenance)
-          type: string
-        quantity:
-          description: Quantity of the equipment available
-          type: integer
-        location:
-          description: Location of the equipment within the hospital
-          type: string
+        usageRecords:
+          type: array
+          items:
+            type: object
+          description: List of usage records
+          properties:
+            usageId:
+              description: Unique identifier for the usage record
+              type: integer
+            date:
+              description: Date of equipment usage
+              type: string
+              format: date
+            usedBy:
+              description: Name of the staff who used the equipment
+              type: string
+            purpose:
+              description: Purpose of the equipment usage
+              type: string
+            notes:
+              description: Additional notes about the equipment usage
+              type: string
