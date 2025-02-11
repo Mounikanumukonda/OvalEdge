@@ -32,7 +32,7 @@ paths:
           description: Unique identifier for the doctor
       responses:
         "200":
-          description: Doctor information retrieved successfully
+          description: Success
           content:
             application/json:
               schema:
@@ -69,8 +69,48 @@ components:
             email:
               description: Email address of the doctor
               type: string
+        qualifications:
+          type: array
+          items:
+            type: string
+          description: List of qualifications the doctor has
+        experience:
+          type: string
+          description: Years of experience the doctor has
+        languages:
+          type: array
+          items:
+            type: string
+          description: Languages spoken by the doctor
+        workingHours:
+          type: object
+          properties:
+            days:
+              description: Days the doctor is available
+              type: string
+            timings:
+              description: Working hours of the doctor
+              type: string
         availability:
           type: array
           items:
             type: string
           description: List of available dates and times for the doctor
+        address:
+          type: object
+          properties:
+            street:
+              description: Street address of the doctor
+              type: string
+            city:
+              description: City of the doctor
+              type: string
+            state:
+              description: State of the doctor
+              type: string
+            zipCode:
+              description: Zip code of the doctor
+              type: string
+            country:
+              description: Country of the doctor
+              type: string
