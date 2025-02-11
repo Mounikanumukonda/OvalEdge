@@ -1,0 +1,69 @@
+openapi: 3.0.3
+info:
+  title: "Prescription History API"
+  version: "1.0"
+  description: This API retrieves the prescription history of a patient from the hospital system.
+
+tags:
+  - name: PrescriptionHistoryV1
+
+paths:
+  /prescriptions/history/{patientId}:
+    get:
+      tags:
+        - PrescriptionHistoryV1
+      operationId: getPrescriptionHistory
+      description: |-
+        <b>API Description :</b> This API retrieves the prescription history of a specific patient by their ID.<br/>
+        <b>Business Logic/Filter on data :</b> None<br/>
+        <b>Source overview : </b> API Gateway>Database<br/>
+        <b>Works with ''Try it Out''? :</b> Yes<br/>
+        <b>Application Context/User Context/Both:</b> User Context<br/>
+        <b>Caching and frequency :</b> None<br/>
+        <b>Any exceptional scenarios associated to API?:</b> None<br/>
+        <b>Security Level:</b> Level 2 (Authenticated)<br />
+        <b>Hypermedia Links:</b> No<br /><b>Any exceptional scenarios associated to API?:</b> The API accepts the access token/apikey only in the header.<br/>
+      parameters:
+        - name: patientId
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: Unique identifier for the patient
+      responses:
+        "200":
+          description: Prescription history retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PrescriptionHistoryResponse"
+        "404":
+          description: Patient not found
+        "406":
+          description: Input data is in invalid format
+        "500":
+          description: Internal Server Error
+      summary: This API retrieves prescription history by patient ID.
+
+components:
+  schemas:
+    PrescriptionHistoryResponse:
+      description: Prescription History
+      type: object
+      properties:
+        patientId:
+          description: Unique identifier for the patient
+          type: integer
+        prescriptions:
+          type: array
+          items:
+            $ref: "#/components/schemas/Prescription"
+
+    Prescription:
+      description: Prescription details
+      type: object
+      properties:
+        prescriptionId:
+          description: Unique identifier for the prescription
+          type: integer
+        medication
