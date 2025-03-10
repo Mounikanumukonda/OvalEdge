@@ -1,8 +1,8 @@
 openapi: 3.0.3
 info:
   title: "Hospital Room Availability API"
-  version: "1.0"
-  description: This API retrieves information about room availability in the hospital.
+  version: "1.1"
+  description: "This API retrieves information about room availability in the hospital."
 
 tags:
   - name: RoomAvailabilityV1
@@ -14,15 +14,8 @@ paths:
         - RoomAvailabilityV1
       operationId: getRoomAvailability
       description: |-
-        <b>API Description :</b> This API retrieves information about room availability in the hospital.<br/>
-        <b>Business Logic/Filter on data :</b> None<br/>
-        <b>Source overview : </b> API Gateway>Database<br/>
-        <b>Works with ''Try it Out''? :</b> Yes<br/>
-        <b>Application Context/User Context/Both:</b> User Context<br/>
-        <b>Caching and frequency :</b> None<br/>
-        <b>Any exceptional scenarios associated to API?:</b> None<br/>
-        <b>Security Level:</b> Level 2 (Authenticated)<br />
-        <b>Hypermedia Links:</b> No<br /><b>Any exceptional scenarios associated to API?:</b> The API accepts the access token/apikey only in the header.<br/>
+        <b>API Description :</b> Retrieves hospital room availability.<br/>
+        <b>Security Level:</b> Level 2 (Authenticated, Token Required).<br/>
       responses:
         "200":
           description: Success
@@ -32,56 +25,60 @@ paths:
                 $ref: "#/components/schemas/RoomAvailabilityResponse"
         "404":
           description: Room information not found
-        "406":
-          description: Input data is in invalid format
         "500":
           description: Internal Server Error
-      summary: This API retrieves room availability information.
+      summary: Retrieve room availability information.
 
 components:
   schemas:
     RoomAvailabilityResponse:
-      description: Room Availability Information
       type: object
       properties:
         roomId:
+          type: integer
           description: Unique identifier for the room
-          type: integer
         status:
+          type: string
           description: Availability status of the room (e.g., available, occupied)
-          type: string
         type:
+          type: string
           description: Type of room (e.g., single, double, ICU)
-          type: string
         floor:
+          type: string
           description: Floor where the room is located
-          type: string
         description:
+          type: string
           description: Additional details about the room
-          type: string
         lastCleaned:
+          type: string
+          format: date-time
           description: Date and time when the room was last cleaned
-          type: string
-          format: date-time
         nextAvailable:
-          description: Date and time when the room will next be available
           type: string
           format: date-time
+          description: Date and time when the room will next be available
         currentPatientId:
-          description: Unique identifier for the current patient in the room
           type: integer
+          description: Unique identifier for the current patient in the room
+        roomAttributes.*:
+          type: string
+          description: Dynamic attributes related to the room (e.g., bedCount, hasVentilator, hasOxygenSupply)
         assignedStaff:
           type: array
+          description: List of staff assigned to the room
           items:
             type: object
-          description: List of staff assigned to the room
-          properties:
-            staffId:
-              description: Unique identifier for the staff member
-              type: integer
-            name:
-              description: Name of the staff member
-              type: string
-            role:
-              description: Role of the staff member
-              type: string
+            properties:
+              staffId:
+                type: integer
+                description: Unique identifier for the staff member
+              name:
+                type: string
+                description: Name of the staff member
+              role:
+                type: string
+                description: Role of the staff member
+              staffDetails.*:
+                type: string
+                description: Additional dynamic staff attributes (e.g., shiftTiming, specialization, yearsOfExperience)
+
