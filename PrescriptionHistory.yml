@@ -1,8 +1,8 @@
 openapi: 3.0.3
 info:
   title: "Prescription History API"
-  version: "1.2"
-  description: "This API retrieves the prescription history of a patient from the hospital system."
+  version: "1.3"
+  description: "This API retrieves a patient's prescription history, along with relevant healthcare details."
 
 tags:
   - name: PrescriptionHistoryV1
@@ -14,7 +14,7 @@ paths:
         - PrescriptionHistoryV1
       operationId: getPrescriptionHistory
       description: |-
-        <b>API Description :</b> Retrieves the prescription history of a specific patient by their ID.<br/>
+        <b>API Description :</b> Retrieves the prescription history of a specific patient.<br/>
         <b>Security Level:</b> Level 2 (Authenticated, Token Required).<br/>
       parameters:
         - name: patientId
@@ -23,18 +23,6 @@ paths:
           schema:
             type: integer
           description: Unique identifier for the patient
-        - name: firstName
-          in: query
-          required: false
-          schema:
-            type: string
-          description: First name of the patient (optional)
-        - name: lastName
-          in: query
-          required: false
-          schema:
-            type: string
-          description: Last name of the patient (optional)
       responses:
         "200":
           description: Success
@@ -69,6 +57,34 @@ components:
         gender:
           type: string
           enum: [Male, Female, Other]
+        bloodType:
+          type: string
+          enum: [A+, A-, B+, B-, O+, O-, AB+, AB-]
+          description: Blood type of the patient
+        height:
+          type: string
+          description: Height of the patient (e.g., "5ft 8in" or "173cm")
+        weight:
+          type: string
+          description: Weight of the patient (e.g., "70kg" or "154lbs")
+        bmi:
+          type: number
+          format: float
+          description: Body Mass Index (BMI)
+        lifestyle:
+          type: object
+          properties:
+            smoker:
+              type: boolean
+              description: Whether the patient is a smoker
+            alcoholConsumption:
+              type: string
+              enum: [None, Light, Moderate, Heavy]
+              description: Patient’s alcohol consumption level
+            physicalActivity:
+              type: string
+              enum: [Sedentary, Low, Moderate, High]
+              description: Patient's physical activity level
         contact:
           type: object
           properties:
@@ -90,12 +106,6 @@ components:
                 phone:
                   type: string
                   description: Emergency contact number
-            primaryPhysician:
-              type: string
-              description: Name of the primary care physician
-            primaryPhysicianPhone:
-              type: string
-              description: Contact number of the primary physician
             email:
               type: string
               description: Email address of the patient
@@ -128,25 +138,34 @@ components:
               items:
                 type: string
               description: List of chronic medical conditions
-        appointments:
+            pastSurgeries:
+              type: array
+              items:
+                type: string
+              description: List of past surgeries undergone by the patient
+            familyHistory:
+              type: array
+              items:
+                type: string
+              description: Family medical history (e.g., Diabetes, Heart Disease)
+        vitals:
           type: object
           properties:
-            upcoming:
-              type: object
-              properties:
-                date:
-                  type: string
-                  format: date
-                  description: Date of next appointment
-                doctor:
-                  type: string
-                  description: Name of the doctor for next appointment
-                reason:
-                  type: string
-                  description: Reason for the appointment
+            bloodPressure:
+              type: string
+              description: Blood pressure reading (e.g., "120/80 mmHg")
+            heartRate:
+              type: integer
+              description: Heart rate in beats per minute
+            oxygenSaturation:
+              type: integer
+              description: Oxygen saturation percentage (e.g., 98%)
+            glucoseLevel:
+              type: number
+              format: float
+              description: Blood glucose level (mg/dL)
         prescriptions:
           type: array
-          description: List of prescriptions
           items:
             type: object
             properties:
@@ -157,4 +176,85 @@ components:
                 type: object
                 properties:
                   genericName:
-         
+                    type: string
+                    description: Generic name of the medication
+                  brandName:
+                    type: string
+                    description: Brand name of the medication
+                  form:
+                    type: string
+                    description: Form of the drug (tablet, capsule, injection)
+                  strength:
+                    type: string
+                    description: Strength of the medication (e.g., 500mg, 10mL)
+              dosage:
+                type: string
+                description: Dosage of the medication
+              frequency:
+                type: string
+                description: Frequency of the medication (e.g., once daily)
+              route:
+                type: string
+                description: Method of administration (e.g., oral, intravenous)
+              sideEffects:
+                type: array
+                items:
+                  type: string
+                description: List of common side effects
+              drugInteractions:
+                type: array
+                items:
+                  type: string
+                description: List of drugs that may interact negatively
+              startDate:
+                type: string
+                format: date
+                description: Start date of the prescription
+              endDate:
+                type: string
+                format: date
+                description: End date of the prescription
+              prescribingDoctor:
+                type: string
+                description: Name of the prescribing doctor
+              prescribingDepartment:
+                type: string
+                description: Hospital department that issued the prescription
+              notes:
+                type: string
+                description: Additional notes about the prescription
+              refillStatus:
+                type: string
+                enum: [Not Refillable, Refillable, Completed]
+                description: Status of the prescription refill
+              refillCount:
+                type: integer
+                description: Number of refills allowed
+              lastRefillDate:
+                type: string
+                format: date
+                description: Last refill date
+              pharmacyDetails:
+                type: object
+                properties:
+                  pharmacyName:
+                    type: string
+                    description: Name of the pharmacy
+                  pharmacyContact:
+                    type: string
+                    description: Contact number of the pharmacy
+                  pharmacyAddress:
+                    type: string
+                    description: Address of the pharmacy
+                  licenseNumber:
+                    type: string
+                    description: License number of the pharmacy
+                  openingHours:
+                    type: string
+                    description: Operating hours of the pharmacy
+                  deliveryAvailable:
+                    type: boolean
+                    description: Whether the pharmacy offers home delivery
+                  pharmacistInCharge:
+                    type: string
+                    description: Name of the pharmacist in charge
