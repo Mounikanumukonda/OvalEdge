@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: "Prescription History API"
-  version: "1.0"
+  version: "1.1"
   description: This API retrieves the prescription history of a patient from the hospital system.
 
 tags:
@@ -16,11 +16,10 @@ paths:
       description: |-
         <b>API Description :</b> This API retrieves the prescription history of a specific patient by their ID.<br/>
         <b>Business Logic/Filter on data :</b> None<br/>
-        <b>Source overview : </b> API Gateway>Database<br/>
+        <b>Source overview : </b> API Gateway > Database<br/>
         <b>Works with ''Try it Out''? :</b> Yes<br/>
         <b>Application Context/User Context/Both:</b> User Context<br/>
         <b>Caching and frequency :</b> None<br/>
-        <b>Any exceptional scenarios associated to API?:</b> The API accepts the access token/apikey only in the header.<br/>
         <b>Security Level:</b> Level 2 (Authenticated)<br/>
         <b>Hypermedia Links:</b> No<br/>
       parameters:
@@ -42,6 +41,19 @@ paths:
           schema:
             type: string
           description: Last name of the patient (optional)
+        - name: dob
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+          description: Date of birth of the patient (optional)
+        - name: insuranceId
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Insurance ID associated with the patient (optional)
       responses:
         "200":
           description: Success
@@ -52,7 +64,7 @@ paths:
         "404":
           description: Patient not found
         "406":
-          description: Input data is in invalid format
+          description: Input data is in an invalid format
         "500":
           description: Internal Server Error
       summary: Retrieve prescription history by patient ID.
@@ -66,6 +78,32 @@ components:
         patientId:
           description: Unique identifier for the patient
           type: integer
+        firstName:
+          description: First name of the patient
+          type: string
+        lastName:
+          description: Last name of the patient
+          type: string
+        dob:
+          description: Date of birth of the patient
+          type: string
+          format: date
+        gender:
+          description: Gender of the patient
+          type: string
+          enum: [Male, Female, Other]
+        insuranceId:
+          description: Insurance ID associated with the patient
+          type: string
+        contactNumber:
+          description: Contact number of the patient
+          type: string
+        email:
+          description: Email address of the patient
+          type: string
+        address:
+          description: Address of the patient
+          type: string
         prescriptions:
           type: array
           description: List of prescriptions
@@ -82,7 +120,10 @@ components:
                 description: Dosage of the medication
                 type: string
               frequency:
-                description: Frequency of the medication
+                description: Frequency of the medication (e.g., twice a day)
+                type: string
+              route:
+                description: Method of administration (e.g., oral, intravenous)
                 type: string
               startDate:
                 description: Start date of the prescription
@@ -93,8 +134,43 @@ components:
                 type: string
                 format: date
               prescribingDoctor:
-                description: Doctor who prescribed the medication
+                description: Name of the doctor who prescribed the medication
+                type: string
+              prescribingDepartment:
+                description: Department of the hospital that issued the prescription
                 type: string
               notes:
                 description: Additional notes about the prescription
                 type: string
+              refillStatus:
+                description: Status of the prescription refill
+                type: string
+                enum: [Not Refillable, Refillable, Completed]
+              refillCount:
+                description: Number of refills allowed
+                type: integer
+              lastRefillDate:
+                description: Last refill date
+                type: string
+                format: date
+              pharmacyDetails:
+                type: object
+                description: Details of the pharmacy that dispensed the medication
+                properties:
+                  pharmacyName:
+                    description: Name of the pharmacy
+                    type: string
+                  pharmacyContact:
+                    description: Contact number of the pharmacy
+                    type: string
+                  pharmacyAddress:
+                    description: Address of the pharmacy
+                    type: string
+              createdTimestamp:
+                description: Timestamp when the prescription was created
+                type: string
+                format: date-time
+              updatedTimestamp:
+                description: Timestamp when the prescription was last updated
+                type: string
+                format: date-time
