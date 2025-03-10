@@ -8,7 +8,7 @@ tags:
   - name: PrescriptionHistoryV1
 
 paths:
-  /prescriptions/history/{patientId,Patientname,lastname}:
+  /prescriptions/history/{patientId}:
     get:
       tags:
         - PrescriptionHistoryV1
@@ -20,18 +20,28 @@ paths:
         <b>Works with ''Try it Out''? :</b> Yes<br/>
         <b>Application Context/User Context/Both:</b> User Context<br/>
         <b>Caching and frequency :</b> None<br/>
-        <b>Any exceptional scenarios associated to API?:</b> None<br/>
-        <b>Security Level:</b> Level 2 (Authenticated)<br />
-        <b>Hypermedia Links:</b> No<br /><b>Any exceptional scenarios associated to API?:</b> The API accepts the access token/apikey only in the header.<br/>
+        <b>Any exceptional scenarios associated to API?:</b> The API accepts the access token/apikey only in the header.<br/>
+        <b>Security Level:</b> Level 2 (Authenticated)<br/>
+        <b>Hypermedia Links:</b> No<br/>
       parameters:
         - name: patientId
-          firstname : Patientname 
-          Latsname : lastname
           in: path
           required: true
           schema:
             type: integer
           description: Unique identifier for the patient
+        - name: firstName
+          in: query
+          required: false
+          schema:
+            type: string
+          description: First name of the patient (optional)
+        - name: lastName
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Last name of the patient (optional)
       responses:
         "200":
           description: Success
@@ -45,7 +55,7 @@ paths:
           description: Input data is in invalid format
         "500":
           description: Internal Server Error
-      summary: This API retrieves prescription history by patient ID.
+      summary: Retrieve prescription history by patient ID.
 
 components:
   schemas:
@@ -58,33 +68,33 @@ components:
           type: integer
         prescriptions:
           type: array
+          description: List of prescriptions
           items:
             type: object
-          description: List of prescriptions
-          properties:
-            prescriptionId:
-              description: Unique identifier for the prescription
-              type: integer
-            medication:
-              description: Name of the medication
-              type: string
-            dosage:
-              description: Dosage of the medication
-              type: string
-            frequency:
-              description: Frequency of the medication
-              type: string
-            startDate:
-              description: Start date of the prescription
-              type: string
-              format: date
-            endDate:
-              description: End date of the prescription
-              type: string
-              format: date
-            prescribingDoctor:
-              description: Doctor who prescribed the medication
-              type: string
-            notes:
-              description: Additional notes about the prescription
-              type: string
+            properties:
+              prescriptionId:
+                description: Unique identifier for the prescription
+                type: integer
+              medication:
+                description: Name of the medication
+                type: string
+              dosage:
+                description: Dosage of the medication
+                type: string
+              frequency:
+                description: Frequency of the medication
+                type: string
+              startDate:
+                description: Start date of the prescription
+                type: string
+                format: date
+              endDate:
+                description: End date of the prescription
+                type: string
+                format: date
+              prescribingDoctor:
+                description: Doctor who prescribed the medication
+                type: string
+              notes:
+                description: Additional notes about the prescription
+                type: string
