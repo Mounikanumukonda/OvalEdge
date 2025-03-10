@@ -1,8 +1,8 @@
 openapi: 3.0.3
 info:
   title: "Hospital Room Availability API"
-  version: "1.1"
-  description: "This API retrieves information about room availability in the hospital."
+  version: "1.3"
+  description: "This API retrieves hospital room availability details."
 
 tags:
   - name: RoomAvailabilityV1
@@ -60,10 +60,97 @@ components:
         currentPatientId:
           type: integer
           description: Unique identifier for the current patient in the room
-        roomAttributes.*:
+
+        # Core Room Attributes
+        core.roomNumber:
           type: string
-          description: Dynamic attributes related to the room (e.g., bedCount, hasVentilator, hasOxygenSupply)
-        assignedStaff:
+          description: Room number assigned to the patient
+        core.wardCode:
+          type: string
+          description: Unique identifier for the ward
+        core.wardName:
+          type: string
+          description: Name of the hospital ward (e.g., Cardiology, Pediatrics)
+        core.bedCount:
+          type: integer
+          description: Number of beds in the room
+        core.roomStatus:
+          type: string
+          enum: [Available, Occupied, Under Maintenance]
+          description: Current status of the room
+        core.occupancyPercentage:
+          type: number
+          format: float
+          description: Percentage of occupancy in the hospital ward
+
+        # Hospital Attributes
+        hospital.name:
+          type: string
+          description: Name of the hospital
+        hospital.locationCode:
+          type: string
+          description: Unique location identifier of the hospital
+        hospital.geoLocationName:
+          type: string
+          description: Geographical location of the hospital
+        hospital.contactNumber:
+          type: string
+          description: Hospital contact number
+
+        # Equipment Information
+        equipment.hasOxygenSupply:
+          type: boolean
+          description: Whether the room has an oxygen supply
+        equipment.hasVentilator:
+          type: boolean
+          description: Whether the room has a ventilator
+        equipment.hasDialysisMachine:
+          type: boolean
+          description: Whether the room has a dialysis machine
+        equipment.hasDefibrillator:
+          type: boolean
+          description: Whether the room has a defibrillator
+        equipment.ventilatorCount:
+          type: integer
+          description: Number of ventilators available in the room
+
+        # Patient Metadata
+        patient.admissionId:
+          type: integer
+          description: Unique identifier for the patient's hospital admission
+        patient.firstName:
+          type: string
+          description: First name of the current patient
+        patient.lastName:
+          type: string
+          description: Last name of the current patient
+        patient.age:
+          type: integer
+          description: Age of the patient
+        patient.gender:
+          type: string
+          enum: [Male, Female, Other]
+          description: Gender of the patient
+        patient.medicalCondition:
+          type: string
+          description: Primary medical condition for hospitalization
+        patient.allergies:
+          type: array
+          items:
+            type: string
+          description: List of known allergies
+        patient.isCritical:
+          type: boolean
+          description: Whether the patient is in critical condition
+        patient.insuranceProvider:
+          type: string
+          description: Name of the insurance provider for the patient
+        patient.insurancePolicyNumber:
+          type: string
+          description: Insurance policy number of the patient
+
+        # Assigned Staff
+        staffDetails:
           type: array
           description: List of staff assigned to the room
           items:
@@ -77,8 +164,37 @@ components:
                 description: Name of the staff member
               role:
                 type: string
-                description: Role of the staff member
-              staffDetails.*:
+                description: Role of the staff member (e.g., Nurse, Doctor)
+              specialization:
                 type: string
-                description: Additional dynamic staff attributes (e.g., shiftTiming, specialization, yearsOfExperience)
+                description: Specialization of the staff member (e.g., Cardiologist, General Physician)
+              shiftTiming:
+                type: string
+                description: Shift timing of the assigned staff
+        staff.nurseCount:
+          type: integer
+          description: Number of nurses assigned to the room
+        staff.doctorCount:
+          type: integer
+          description: Number of doctors assigned to the room
 
+        # Billing & Security
+        billing.totalBillAmount:
+          type: number
+          format: float
+          description: Total bill amount for the patient’s stay
+        billing.pendingAmount:
+          type: number
+          format: float
+          description: Remaining balance to be paid
+        billing.insuranceCoverage:
+          type: string
+          description: Insurance coverage details
+        security.accessCode:
+          type: string
+          description: Secure access code for the room
+        security.authorizedPersonnel:
+          type: array
+          items:
+            type: string
+          description: List of personnel authorized to access the room
