@@ -25,6 +25,8 @@ paths:
         <b>Hypermedia Links:</b> No<br /><b>Any exceptional scenarios associated to API?:</b> The API accepts the access token/apikey only in the header.<br/>
       parameters:
         - name: patientId
+          firstname : Patientname 
+          Latsname : lastname
           in: path
           required: true
           schema:
