@@ -8,7 +8,7 @@ tags:
   - name: PrescriptionHistoryV1
 
 paths:
-  /prescriptions/history/{patientId}:
+  /prescriptions/history/{patientId,Patientname,lastname}:
     get:
       tags:
         - PrescriptionHistoryV1
