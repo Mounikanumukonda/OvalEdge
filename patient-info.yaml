@@ -97,17 +97,52 @@ components:
         contact:
           type: object
           properties:
-            phone:
+            contact.phone:
               description: Phone number of the patient
               type: string
-            emails:
+            contact.emails:
               type: array
               items:
                 type: object
                 properties:
-                  emailAddress:
+                  contact.emailAddress:
                     description: Email address of the patient
                     type: string
+                  contact.verified:
+                    description: Whether the email address is verified
+                    type: boolean
+                  conatct.primary:
+                    description: Indicates if the email is the primary contact email
+                    type: boolean
+                  contact.emailType:
+                    description: Type of email (e.g., personal, work, other)
+                    type: string
+                  contact.emailDomain:
+                    description: Domain of the email address
+                    type: string
+                  contact.emailCreationDate:
+                    description: Creation date of the email address
+                    type: string
+                    format: date
+                  contact.emailStatus:
+                    description: Status of the email address (e.g., active, inactive)
+                    type: string
+                  contact.emailLastUpdated:
+                    description: Last updated date of the email address
+                    type: string
+                    format: date
+                  contact.emailOwner:
+                    description: Owner of the email address
+                    type: string
+                  contact.emailProvider:
+                    description: Email service provider
+                    type: string
+                  contact.emailPurpose:
+                    description: Purpose of the email (e.g., personal, business)
+                    type: string
+                  contact.emailBackup:
+                    description: Indicates if the email is a backup address
+                    type: boolean
         address:
           type: object
           properties:
@@ -136,92 +171,3 @@ components:
           items:
             type: string
           description: List of allergies the patient has
-        medications:
-          type: array
-          items:
-            type: object
-          description: List of medications the patient is currently taking
-          properties:
-            name:
-              description: Name of the medication
-              type: string
-            dosage:
-              description: Dosage of the medication
-              type: string
-            frequency:
-              description: Frequency of the medication
-              type: string
-        surgeries:
-          type: array
-          items:
-            type: object
-          description: List of past surgeries
-          properties:
-            surgeryName:
-              description: Name of the surgery
-              type: string
-            date:
-              description: Date of the surgery
-              type: string
-              format: date
-        immunizations:
-          type: array
-          items:
-            type: object
-          description: List of immunizations
-          properties:
-            immunizationName:
-              description: Name of the immunization
-              type: string
-            date:
-              description: Date of the immunization
-              type: string
-              format: date
-        vitals:
-          type: object
-          properties:
-            height:
-              description: Height of the patient
-              type: string
-            weight:
-              description: Weight of the patient
-              type: string
-            bloodPressure:
-              description: Blood pressure of the patient
-              type: string
-            heartRate:
-              description: Heart rate of the patient
-              type: string
-        physician:
-          type: object
-          properties:
-            name:
-              description: Name of the primary physician
-              type: string
-            contact:
-              description: Contact details of the physician
-              type: string
-        insurance:
-          type: object
-          properties:
-            provider:
-              description: Insurance provider of the patient
-              type: string
-            policyNumber:
-              description: Insurance policy number of the patient
-              type: string
-            coverage:
-              description: Coverage details of the patient's insurance
-              type: string
-            insuranceExpiryDate:
-              type: string
-              format: date
-              description: Expiry date of the patient's insurance policy
-        registrationDate:
-          type: string
-          format: date
-          description: Date of patient registration
-        lastVisitDate:
-          type: string
-          format: date
-          description: Date of the patient's last visit
